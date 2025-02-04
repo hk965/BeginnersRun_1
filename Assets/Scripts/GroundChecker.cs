@@ -10,18 +10,6 @@ public class GroundChecker : MonoBehaviour
     private bool onGround = false;
     private bool isGroundEnter, isGroundStay, isGroundExit;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public bool IsGround()
     {
         if (isGroundEnter || isGroundStay)

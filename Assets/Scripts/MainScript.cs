@@ -161,7 +161,7 @@ public class MainScript : MonoBehaviour
             count = (int)countdown + 1;
             starttext.text = count.ToString();
 
-            if (isGoal1 || isGoal2)
+            if (isGoal1 == true || isGoal2 == true)
             {
                 starttext.text = "GOAL!!";
             }
@@ -202,7 +202,7 @@ public class MainScript : MonoBehaviour
                 }
                 //何かとぶつかったときの挙動
                 Collision();
-                //左右、ジャンプ、スキルの動作Move
+                //左右、ジャンプ、スキルの動作
                 RightLeft_Manager();
                 Move();
                 //スキル発動時のスキルボタンの挙動
@@ -322,7 +322,7 @@ public class MainScript : MonoBehaviour
     public void Jump()
     {
         bool canTime = jumpLimitTime > jumpTime;
-        if (isGround)
+        if (isGround == true)
         {
             //地上からジャンプしたとき
             if (pushjump == true)
@@ -339,10 +339,10 @@ public class MainScript : MonoBehaviour
             }
         }
         //ジャンプ中の制御
-        else if (isJump)
+        else if (isJump == true)
         {
             //ジャンプの高度制限、滞空時間を設ける
-            if (pushjump == true && jumpPos + jumpHeight > transform.position.y && canTime)  //高度制限内、滞空時間内では上昇
+            if (pushjump == true && jumpPos + jumpHeight > transform.position.y && canTime == true)  //高度制限内、滞空時間内では上昇
             {
                 ySpeed = jumpPower;
                 jumpTime += Time.deltaTime;
@@ -415,48 +415,51 @@ public class MainScript : MonoBehaviour
     //左右の移動のフラグ
     void RightLeft_Manager()
     {
-        if ((Input.GetKey("right") == true || pushright == 1) && (Input.GetKey("left") == true || pushleft == 1))
+        if(isGoal1 == false && isGoal2 == false)
         {
-            anim.SetBool("run", false);
-            leftMove = false;
-            rightMove = false;
-        }
-        else if (Input.GetKey("left") == true || pushleft == 1)
-        {
-            leftMove = true;
-            transform.localScale = new Vector3(-1, 1, 1) * 4.08122f;
-            anim.SetBool("run", true);
-        }
-        else if (Input.GetKey("right") == true || pushright == 1)
-        {
-            rightMove = true;
-            transform.localScale = new Vector3(1, 1, 1) * 4.08122f;
-            anim.SetBool("run", true);
-        }
+            if ((Input.GetKey("right") == true || pushright == 1) && (Input.GetKey("left") == true || pushleft == 1))
+            {
+                anim.SetBool("run", false);
+                leftMove = false;
+                rightMove = false;
+            }
+            else if (Input.GetKey("left") == true || pushleft == 1)
+            {
+                leftMove = true;
+                transform.localScale = new Vector3(-1, 1, 1) * 4.08122f;
+                anim.SetBool("run", true);
+            }
+            else if (Input.GetKey("right") == true || pushright == 1)
+            {
+                rightMove = true;
+                transform.localScale = new Vector3(1, 1, 1) * 4.08122f;
+                anim.SetBool("run", true);
+            }
 
-        if (Input.GetKeyUp("right") == true || isRight == true) 
-        {
-            rightMove = false;
-            anim.SetBool("run", false);
-        }
-        if (Input.GetKeyUp("left") == true || isLeft == true) 
-        {
-            leftMove = false;
-            anim.SetBool("run", false);
-        }
+            if (Input.GetKeyUp("right") == true || isRight == true)
+            {
+                rightMove = false;
+                anim.SetBool("run", false);
+            }
+            if (Input.GetKeyUp("left") == true || isLeft == true)
+            {
+                leftMove = false;
+                anim.SetBool("run", false);
+            }
 
-        if (pushright == 2) 
-        {
-            rightMove = false;
-            anim.SetBool("run", false);
-            pushright = 0;
-        }
-        if (pushleft == 2)
-        {
-            leftMove = false;
-            anim.SetBool("run", false);
-            pushleft = 0;
-        }
+            if (pushright == 2)
+            {
+                rightMove = false;
+                anim.SetBool("run", false);
+                pushright = 0;
+            }
+            if (pushleft == 2)
+            {
+                leftMove = false;
+                anim.SetBool("run", false);
+                pushleft = 0;
+            }
+        }        
     }
 
     //移動とジャンプ
@@ -490,7 +493,7 @@ public class MainScript : MonoBehaviour
             myGravity = new Vector2(0, -jumpPower);
         }
         
-        //PCでのバック用：スペースキーでジャンプするように割り当て
+        //PCでのデバック用：スペースキーでジャンプするように割り当て
         if (Input.GetKeyDown("space"))
         {
             pushjump = true;
@@ -510,9 +513,10 @@ public class MainScript : MonoBehaviour
         {
             addVelocity = moveObj.GetVelocity();
         }
+        //プレイヤーを動かす
         rb.velocity = new Vector2(xSpeed_left + xSpeed_right, ySpeed) + myGravity + addVelocity;
 
-        //PCでのバック用：Sキーでスキル発動するように割り当て
+        //PCでのデバック用：Sキーでスキル発動するように割り当て
         if (Input.GetKeyDown("s"))
         {
             skillnow = true;
@@ -526,7 +530,7 @@ public class MainScript : MonoBehaviour
     void Collision()
     {
         //着地
-        if (isGround)
+        if (isGround == true)
         {
             jumpCount = 0;
         }
@@ -536,9 +540,9 @@ public class MainScript : MonoBehaviour
             jumpCount = 1;
         }
         //デバフ
-        if (onEnemy)
+        if (onEnemy == true)
         {
-            if (!muteki)
+            if (muteki == false)
             {
                 slower = true;
                 Slower();
@@ -613,10 +617,12 @@ public class MainScript : MonoBehaviour
     //デバフ
     void Slower()
     {
+        //スピードアップ無し
         if (speedUp == false)
         {
             speed = originalspeed * 0.75f;
         }
+        //スピードアップ時
         if (speedUp == true)
         {
             speed = originalspeed;
@@ -631,26 +637,31 @@ public class MainScript : MonoBehaviour
             damageSoundOn = true;
         }
         slowertimer += Time.deltaTime;
+        //被ダメージ時、プレイヤーが点滅
         float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
         ren.color = new Color(1f, 1f, 1f, level);
-
-        if (damageSoundOn)
+        //ダメージ音
+        if (damageSoundOn == true)
         {
             audioSourse.clip = damageSound;
             audioSourse.Play();
             damageSoundOn = false;
         }
+        //減速時間5秒経過時、スピードを戻す
         if (slowertimer > 5)
         {
+            //スピードアップ無し
             if (speedUp == false)
             {
                 speed = originalspeed;                
             }
+            //スピードアップ時
             if (speedUp == true)
             {
                 speed = originalspeed * speedUpRate;
             }
 
+            //点滅解除
             ren.color = new Color(1f, 1f, 1f, 1f);
 
             slower = false;
@@ -660,7 +671,7 @@ public class MainScript : MonoBehaviour
 
     void JumpSound()
     {
-        if (jumpSoundOn)
+        if (jumpSoundOn == true)
         {
             audioSourse.clip = jumpSound;
             audioSourse.Play();
@@ -670,7 +681,7 @@ public class MainScript : MonoBehaviour
 
     void SkillSound()
     {
-        if (skillSoundOn)
+        if (skillSoundOn == true)
         {
             audioSourse.clip = skillSound;
             audioSourse.Play();

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class StageScript : MonoBehaviour
 {
-    //スキル選択画面で使うボタンを召喚。楽にスキルを増やせる
+    //ステージ選択画面で使うボタンを召喚。楽にステージを増やせる
     public Button[] buttons;
 
     public AudioClip decideSound;
@@ -30,7 +30,7 @@ public class StageScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //スキルを選択したら決定ボタンが押せるようになる
+        //ステージを選択したら決定ボタンが押せるようになる
         if (PlayerPrefs.HasKey("stage") == true)
         {
             buttons[0].interactable = true;
@@ -57,7 +57,7 @@ public class StageScript : MonoBehaviour
     //ステージ選択についての関数
     public void Stage(int i)
     {
-        PlayerPrefs.SetInt("stage", i);  //各ステージに番号を割り振っているので、何番のスキルを選択したかわかる
+        PlayerPrefs.SetInt("stage", i);  //各ステージに番号を割り振っているので、何番のステージを選択したかわかる
         for (int j = 1; j < buttons.Length; j++)
         {
             buttons[j].image.color = new Color32(255, 255, 255, 255);

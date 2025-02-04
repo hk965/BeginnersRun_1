@@ -5,23 +5,18 @@ using UnityEngine;
 public class GoalChecker : MonoBehaviour
 {
     private bool isGoal = false;
-    private bool isGoalEnter, isGoalStay, isGoalExit;
+    private bool isGoalEnter;
 
 
     public bool IsGoal()
     {
-        if (isGoalEnter /*|| isGoalStay*/)
+        if (isGoalEnter)
         {
             isGoal = true;
         }
-        /*else if (isGoalExit)
-        {
-            isGoal = false;
-        }*/
-
+       
         isGoalEnter = false;
-        /*isGoalStay = false;
-        isGoalExit = false;*/
+
         return isGoal;
     }
 
@@ -33,19 +28,5 @@ public class GoalChecker : MonoBehaviour
         }
     }
 
-    /*private void OnTriggerStay2D(Collider2D col)
-    {
-        if (col.tag == "Player")
-        {
-            isGoalStay = true;
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D col)
-    {
-        if (col.tag == "Player")
-        {
-            isGoalExit = true;
-        }
-    }*/
+    
 }

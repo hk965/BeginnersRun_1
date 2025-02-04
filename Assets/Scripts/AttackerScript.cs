@@ -10,7 +10,6 @@ public class AttackerScript : MonoBehaviour
     private float distance;
 
     private Vector3 player_pos;
-    /*private Vector3 direction;*/
 
     private float attacktimer;
 
