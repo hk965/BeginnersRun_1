@@ -157,7 +157,7 @@
 　　　MainScript：214～217行目   
 
   
-# 【参考にした箇所】  
+# 【webサイトを参考にした箇所】  
 　　〇MainScript：124行目（スキル番号を基にSKILLボタンに関数を割り当てる処理）  
 　　　[Unity – UIのButtonにイベントを設定する方法まとめ](https://santerabyte.com/unity-ui-button-add-click-event/#%E3%82%B9%E3%82%AF%E3%83%AA%E3%83%97%E3%83%88%E3%81%8B%E3%82%89%E8%BF%BD%E5%8A%A0%E3%81%99%E3%82%8B)  
   
